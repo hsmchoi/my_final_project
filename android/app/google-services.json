@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "387303738184",
+    "project_id": "hsmcoi-chellenge-project",
+    "storage_bucket": "hsmcoi-chellenge-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387303738184:android:91c8bda3c2866e119e817d",
+        "android_client_info": {
+          "package_name": "com.example.fi_chell"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcjaVDr6Ut3NbM-IS6p703w97s4YezYH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387303738184:android:5a54fafe9f6f9ef29e817d",
+        "android_client_info": {
+          "package_name": "hsm.mf.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcjaVDr6Ut3NbM-IS6p703w97s4YezYH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
