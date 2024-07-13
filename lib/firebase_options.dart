@@ -41,46 +41,52 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyABWfey3D_CsrFa10G8ZkhqwKPFJTYRvxs',
-    appId: '1:387303738184:web:07b418312ff151859e817d',
-    messagingSenderId: '387303738184',
-    projectId: 'hsmcoi-chellenge-project',
-    authDomain: 'hsmcoi-chellenge-project.firebaseapp.com',
-    storageBucket: 'hsmcoi-chellenge-project.appspot.com',
+    apiKey: 'AIzaSyAfBnUcCC-zX--TIFZeIcgwZ3FQ79dHPkQ',
+    appId: '1:39180788779:web:49d3c8273c1473e912f66e',
+    messagingSenderId: '39180788779',
+    projectId: 'fi-chel-pjt',
+    authDomain: 'fi-chel-pjt.firebaseapp.com',
+    databaseURL: 'https://fi-chel-pjt-default-rtdb.firebaseio.com',
+    storageBucket: 'fi-chel-pjt.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAcjaVDr6Ut3NbM-IS6p703w97s4YezYH8',
-    appId: '1:387303738184:android:5a54fafe9f6f9ef29e817d',
-    messagingSenderId: '387303738184',
-    projectId: 'hsmcoi-chellenge-project',
-    storageBucket: 'hsmcoi-chellenge-project.appspot.com',
+    apiKey: 'AIzaSyAl_T0DWUicyw5I13LIj_oE0rh5TLmYld8',
+    appId: '1:39180788779:android:21b5173d3bca842a12f66e',
+    messagingSenderId: '39180788779',
+    projectId: 'fi-chel-pjt',
+    databaseURL: 'https://fi-chel-pjt-default-rtdb.firebaseio.com',
+    storageBucket: 'fi-chel-pjt.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBGO5sFg7T2JyYpsWJ12EsOPPygRxUN-js',
-    appId: '1:387303738184:ios:d3b3d0031002b8689e817d',
-    messagingSenderId: '387303738184',
-    projectId: 'hsmcoi-chellenge-project',
-    storageBucket: 'hsmcoi-chellenge-project.appspot.com',
+    apiKey: 'AIzaSyAwryn427uKZSmNrvpYeWVIViastU83A6g',
+    appId: '1:39180788779:ios:576c4c9852948e8d12f66e',
+    messagingSenderId: '39180788779',
+    projectId: 'fi-chel-pjt',
+    databaseURL: 'https://fi-chel-pjt-default-rtdb.firebaseio.com',
+    storageBucket: 'fi-chel-pjt.appspot.com',
     iosBundleId: 'com.example.myFinalProject',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBGO5sFg7T2JyYpsWJ12EsOPPygRxUN-js',
-    appId: '1:387303738184:ios:d3b3d0031002b8689e817d',
-    messagingSenderId: '387303738184',
-    projectId: 'hsmcoi-chellenge-project',
-    storageBucket: 'hsmcoi-chellenge-project.appspot.com',
+    apiKey: 'AIzaSyAwryn427uKZSmNrvpYeWVIViastU83A6g',
+    appId: '1:39180788779:ios:576c4c9852948e8d12f66e',
+    messagingSenderId: '39180788779',
+    projectId: 'fi-chel-pjt',
+    databaseURL: 'https://fi-chel-pjt-default-rtdb.firebaseio.com',
+    storageBucket: 'fi-chel-pjt.appspot.com',
     iosBundleId: 'com.example.myFinalProject',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyABWfey3D_CsrFa10G8ZkhqwKPFJTYRvxs',
-    appId: '1:387303738184:web:9d4e7dbdeab20def9e817d',
-    messagingSenderId: '387303738184',
-    projectId: 'hsmcoi-chellenge-project',
-    authDomain: 'hsmcoi-chellenge-project.firebaseapp.com',
-    storageBucket: 'hsmcoi-chellenge-project.appspot.com',
+    apiKey: 'AIzaSyAfBnUcCC-zX--TIFZeIcgwZ3FQ79dHPkQ',
+    appId: '1:39180788779:web:4ec29a355c6c805512f66e',
+    messagingSenderId: '39180788779',
+    projectId: 'fi-chel-pjt',
+    authDomain: 'fi-chel-pjt.firebaseapp.com',
+    databaseURL: 'https://fi-chel-pjt-default-rtdb.firebaseio.com',
+    storageBucket: 'fi-chel-pjt.appspot.com',
   );
+
 }

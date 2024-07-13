@@ -1,20 +1,25 @@
+// sign_up_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../view_models/login_view_model.dart';
+import '../../../view_models/sign_up_view_model.dart';
 
-class LoginScreen extends ConsumerWidget {
-  const LoginScreen({super.key});
+final signUpViewModelProvider = ChangeNotifierProvider((ref) {
+  return SignUpViewModel(ref);
+});
+
+class SignUpScreen extends ConsumerWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(loginViewModelProvider);
+    final viewModel = ref.watch(signUpViewModelProvider);
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('로그인')),
+      appBar: AppBar(title: const Text('회원가입')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -43,21 +48,14 @@ class LoginScreen extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                await viewModel.login(
-                  emailController.text,
-                  passwordController.text,
-                );
-                if (viewModel.emailError == null &&
-                    viewModel.passwordError == null) {
-                  context.go('/'); // 로그인 성공 시 홈 화면으로 이동
+                if (viewModel.validateEmail(emailController.text) &&
+                    viewModel.validatePassword(passwordController.text)) {
+                  await viewModel.signUp(
+                      emailController.text, passwordController.text);
+                  if (viewModel.user != null) {
+                    context.go('/');
+                  }
                 }
-              },
-              child: const Text('로그인'),
-            ),
-            // 회원가입 버튼 추가
-            TextButton(
-              onPressed: () {
-                context.go('/signup');
               },
               child: const Text('회원가입'),
             ),
