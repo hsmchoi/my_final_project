@@ -143,7 +143,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.blue, Colors.indigo],
+            // rgb(237,247,255)
+            colors: [
+              Color.fromARGB(255, 237, 247, 255),
+              Color.fromARGB(255, 237, 190, 152),
+            ],
           ),
         ),
         child: Center(
@@ -160,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   );
                 },
               ),
+
               AnimatedBuilder(
                 animation: _starAnimationController,
                 builder: (context, child) {
@@ -239,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         controller: _answerController,
                         // 입력 필드의 배경색을 투명하게 설정합니다.
                         decoration: const InputDecoration(
-                          hintText: "답변을 입력하세요...",
+                          hintText: "Click",
                           // 힌트 텍스트의 스타일을 지정합니다.
                           hintStyle: TextStyle(color: Colors.grey),
                           // 입력 필드 테두리를 제거합니다.
@@ -247,7 +252,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         // 텍스트 스타일을 지정합니다.
                         style: const TextStyle(
-                            fontSize: 16.0, color: Colors.white),
+                            fontSize: 16.0, color: Colors.black),
+
                         // 여러 줄 입력을 허용합니다.
                         maxLines: null,
                       ),
