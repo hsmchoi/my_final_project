@@ -1,8 +1,11 @@
+// home_screen.dart
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 import '../../../data/card/questions.dart';
+import '../../../widgets/custom_widget.dart';
 
 // 홈 화면을 나타내는 Stateful 위젯입니다.
 // Stateful 위젯은 상태를 가지며, 상태 변화에 따라 UI를 업데이트할 수 있습니다.
@@ -23,13 +26,16 @@ class HomeScreen extends StatefulWidget {
 
 // HomeScreen의 상태를 관리하는 State 클래스입니다.
 // SingleTickerProviderStateMixin을 사용하여 애니메이션을 제어합니다.
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // 애니메이션 컨트롤러는 애니메이션의 시작, 정지, 반복 등을 제어합니다.
   late AnimationController _animationController;
   // 애니메이션 객체는 애니메이션의 현재 값을 나타냅니다.
   late Animation<double> _waveAnimation;
+  // 별똥별 입자들을 저장할 리스트
+  final List<StarParticle> _particles = [];
 
+  // 별똥별 애니메이션을 제어할 애니메이션 컨트롤러
+  late AnimationController _starAnimationController;
   @override
   // initState() 메서드는 State 객체가 생성될 때 호출됩니다.
   // 애니메이션 컨트롤러를 초기화하고 애니메이션을 반복 재생합니다.
@@ -52,6 +58,11 @@ class _HomeScreenState extends State<HomeScreen>
       // curve는 애니메이션 곡선을 설정합니다.
       curve: Curves.easeInOut,
     );
+    // 별똥별 애니메이션 컨트롤러 초기화
+    _starAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500), // 별똥별 애니메이션 지속 시간 설정
+    );
   }
 
   @override
@@ -60,10 +71,67 @@ class _HomeScreenState extends State<HomeScreen>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+    // 별똥별 애니메이션 컨트롤러 해제
+    _starAnimationController.dispose();
+  }
+
+  // 버튼 클릭 시 실행될 함수를 수정합니다.
+  void _saveAnswer() {
+    // 텍스트 필드에서 답변을 가져옵니다.
+
+    // TODO: 답변을 Firestore에 저장하는 로직을 여기에 추가합니다.
+
+    // 텍스트 필드를 초기화합니다.
+    _answerController.clear();
+
+    // 다음 질문으로 넘어갑니다.
+    setState(() {
+      _currentQuestionIndex =
+          (_currentQuestionIndex + 1) % socratesQuestions.length;
+    });
+
+    // 애니메이션을 실행합니다.
+    _animationController.forward(from: 0.0);
+    // 별똥별 입자 생성
+    _spawnParticles();
+
+    // 별똥별 애니메이션 실행
+    _starAnimationController.forward(from: 0.0);
+  }
+
+  // 별똥별 입자를 생성하는 함수
+  void _spawnParticles() {
+    // 랜덤 객체 생성
+    final random = Random();
+
+    // 10개의 별똥별 입자 생성
+    for (int i = 0; i < 280; i++) {
+      // 랜덤한 위치, 크기, 색상, 속도 설정
+      _particles.add(
+        StarParticle(
+          position: Offset(
+            MediaQuery.of(context).size.width / 2, // 화면 가운데에서 시작
+            MediaQuery.of(context).size.height / 3, // 화면 가운데에서 시작
+          ),
+          size: random.nextDouble() * 5.0 + 1.0, // 랜덤한 크기
+          color: Color.fromRGBO(
+            random.nextInt(256),
+            random.nextInt(256),
+            random.nextInt(256),
+            1.0,
+          ), // 랜덤한 색상
+          speed: Offset(
+            (random.nextDouble() - 0.5) * 50.0, // 랜덤한 x축 속도
+            (random.nextDouble() - 0.5) * 50.0, // 랜덤한 y축 속도
+          ),
+        ),
+      );
+    }
   }
 
   int _currentQuestionIndex = 0;
-
+  // 입력 필드에 입력된 텍스트를 저장하는 변수를 선언합니다.
+  final TextEditingController _answerController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,15 +160,36 @@ class _HomeScreenState extends State<HomeScreen>
                   );
                 },
               ),
+              AnimatedBuilder(
+                animation: _starAnimationController,
+                builder: (context, child) {
+                  // 별똥별 입자들을 업데이트하고 그립니다.
+                  for (var particle in _particles) {
+                    particle.update(MediaQuery.of(context).size,
+                        _starAnimationController.value);
+                  }
+
+                  // 애니메이션이 완료되면 입자 리스트를 초기화합니다.
+                  if (_starAnimationController.status ==
+                      AnimationStatus.completed) {
+                    _particles.clear();
+                  }
+
+                  // 별똥별 입자들을 그립니다.
+                  return CustomPaint(
+                    painter: StarParticlePainter(_particles),
+                    size: Size.infinite,
+                  );
+                },
+              ),
+
               // 질문 카드를 추가합니다.
               Positioned(
                 top: 100.0 +
                     20.0 *
                         _waveAnimation.value *
                         (1.0 +
-                            sin(_animationController.value *
-                                pi *
-                                2)), // 카드가 움직이도록 애니메이션 값을 사용합니다.
+                            sin(_animationController.value * pi * 2)), // 수정된 코드
                 child: Transform.translate(
                   offset: Offset(
                       0, -25.0 * _waveAnimation.value), // 좌우로 움직이도록 오프셋을 조정합니다.
@@ -128,6 +217,46 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       ),
                     ),
+                  ),
+                ),
+              ),
+              // 입력 필드를 추가합니다.
+              Positioned(
+                // 입력 필드 위치를 질문 카드 아래로 조정합니다.
+                top: 250.0 +
+                    20.0 *
+                        _waveAnimation.value *
+                        (1.0 + sin(_animationController.value * pi * 2)),
+                // 화면 가운데 정렬을 위해 약간의 오프셋을 추가합니다.
+                left: MediaQuery.of(context).size.width * 0.1,
+
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Column(
+                    children: [
+                      TextField(
+                        // 텍스트 입력을 제어하는 컨트롤러를 설정합니다.
+                        controller: _answerController,
+                        // 입력 필드의 배경색을 투명하게 설정합니다.
+                        decoration: const InputDecoration(
+                          hintText: "답변을 입력하세요...",
+                          // 힌트 텍스트의 스타일을 지정합니다.
+                          hintStyle: TextStyle(color: Colors.grey),
+                          // 입력 필드 테두리를 제거합니다.
+                          border: InputBorder.none,
+                        ),
+                        // 텍스트 스타일을 지정합니다.
+                        style: const TextStyle(
+                            fontSize: 16.0, color: Colors.white),
+                        // 여러 줄 입력을 허용합니다.
+                        maxLines: null,
+                      ),
+                      ElevatedButton(
+                        onPressed:
+                            _saveAnswer, // 버튼 클릭 시 _saveAnswer 함수를 실행합니다.
+                        child: const Text("저장"),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -186,6 +315,41 @@ class WavePainter extends CustomPainter {
   // shouldRepaint() 메서드는 캔버스를 다시 그릴지 여부를 결정합니다.
   // 이 경우에는 항상 true를 반환하여 애니메이션이 부드럽게 재생되도록 합니다.
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+// 별똥별 입자들을 그리는 CustomPainter 클래스
+class StarParticlePainter extends CustomPainter {
+  final List<StarParticle> particles;
+
+  StarParticlePainter(this.particles);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 각 입자를 그립니다.
+    for (var particle in particles) {
+      // Paint 객체를 생성하여 입자의 색상과 크기를 설정합니다.
+      final paint = Paint()
+        ..color = particle.color
+        ..strokeWidth = particle.size;
+
+      // 입자를 점으로 그립니다.
+      canvas.drawPoints(
+        // 점의 모양을 설정합니다. (여기서는 원 모양)
+        PointMode.points,
+        // 점의 위치를 설정합니다.
+        [particle.position],
+        // Paint 객체를 설정합니다.
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // 다시 그릴 필요가 있는지 여부를 반환합니다.
+    // 여기서는 항상 true를 반환하여 애니메이션이 부드럽게 재생되도록 합니다.
     return true;
   }
 }
