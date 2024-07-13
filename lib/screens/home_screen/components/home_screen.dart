@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // 별똥별 애니메이션 컨트롤러 초기화
     _starAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500), // 별똥별 애니메이션 지속 시간 설정
+      duration: const Duration(milliseconds: 300), // 별똥별 애니메이션 지속 시간 설정
     );
   }
 
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final random = Random();
 
     // 10개의 별똥별 입자 생성
-    for (int i = 0; i < 280; i++) {
+    for (int i = 0; i < 120; i++) {
       // 랜덤한 위치, 크기, 색상, 속도 설정
       _particles.add(
         StarParticle(
