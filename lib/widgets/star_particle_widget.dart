@@ -39,15 +39,15 @@ class StarParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final random = Random();
-    final particles = List.generate(100, (index) {
+    final particles = List.generate(120, (index) {
       return StarParticle(
-        position: Offset(size.width / 2, size.height / 2),
-        size: random.nextDouble() * 5 + 1,
+        position: Offset(size.width / 2, size.height / 3),
+        size: random.nextDouble() * 5.0 + 1.0,
         color: Color.fromRGBO(
           random.nextInt(256),
           random.nextInt(256),
           random.nextInt(256),
-          1,
+          1.0,
         ),
         speed: Offset(
           (random.nextDouble() - 0.5) * 50,

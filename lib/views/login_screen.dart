@@ -1,60 +1,100 @@
 //views/login_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import for restarting the app
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_final_project/view_models/login_view_model.dart';
 import 'package:my_final_project/widgets/custom_background.dart';
+import 'package:my_final_project/repositories/authentication_repository.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final bool _showRestartButton = false;
+
+  // Function to restart the app
+  void restartApp() {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final loginViewModel = ref.watch(loginViewModelProvider);
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Custom Background
-          const CustomBackground(),
-
-          // Login Buttons
-          Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.1,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    // Use .when to listen for changes from authStateChangesProvider
+    return ref.watch(authStateChangesProvider).when(
+      data: (user) {
+        if (user != null && !_showRestartButton) {
+          // Check for login and avoid multiple restarts
+          // Show restart message and button
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                  "Login successful! To complete the process, please restart the app."),
+              ElevatedButton(
+                onPressed: () {
+                  restartApp();
+                },
+                child: const Text("Restart"),
+              ),
+            ],
+          );
+        } else {
+          // User is not logged in, show the login screen
+          return Scaffold(
+            body: Stack(
               children: [
-                // Email Login Button
-                _buildLoginButton(
-                  icon: Icons.email,
-                  onTap: () {
-                    print("d");
-                    context.go('/login/email'); // Use context.go()
-                  },
-                ),
-                // Google Login Button
-                _buildLoginButton(
-                  icon: Icons.g_mobiledata,
-                  onTap: () async {
-                    await loginViewModel
-                        .signInWithGoogle(); // Call the signInWithGoogle method
-                  },
-                ),
-                // Apple Login Button
-                _buildLoginButton(
-                  icon: Icons.apple,
-                  onTap: () async {
-                    await loginViewModel
-                        .signInWithApple(); // Call the signInWithApple method
-                  },
+                const CustomBackground(),
+                Positioned(
+                  bottom: MediaQuery.of(context).size.height * 0.1,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Email Login Button
+                      _buildLoginButton(
+                        icon: Icons.email,
+                        onTap: () {
+                          context.go('/login/email');
+                        },
+                      ),
+                      // Google Login Button
+                      _buildLoginButton(
+                        icon: Icons.g_mobiledata,
+                        onTap: () async {
+                          await loginViewModel.signInWithGoogle();
+                        },
+                      ),
+                      // Apple Login Button
+                      _buildLoginButton(
+                        icon: Icons.apple,
+                        onTap: () async {
+                          await loginViewModel.signInWithApple();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
+          );
+        }
+      },
+      error: (error, stackTrace) {
+        // Handle error state (e.g., display an error message)
+        return Center(child: Text("Error: $error"));
+      },
+      loading: () {
+        // Show a loading indicator
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 
