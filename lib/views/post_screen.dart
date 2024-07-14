@@ -6,7 +6,6 @@ import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/repositories/item_repository.dart';
 import 'package:my_final_project/widgets/custom_background.dart'; // 배경 위젯 import
 import 'package:my_final_project/widgets/wave_widget.dart'; // 파도 위젯 import
-import 'package:go_router/go_router.dart'; // Import go_router
 
 class PostScreen extends ConsumerStatefulWidget {
   const PostScreen({super.key});
@@ -16,6 +15,7 @@ class PostScreen extends ConsumerStatefulWidget {
 }
 
 class _PostScreenState extends ConsumerState<PostScreen> {
+  // ignore: unused_field
   final int _selectedIndex = 1; // Posts 화면의 인덱스는 1
   @override
   Widget build(BuildContext context) {

@@ -2,9 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart'; // go_router import 추가
 import 'package:my_final_project/widgets/custom_background.dart';
-
 import '../view_models/login_view_model.dart';
 
 class EmailLoginScreen extends ConsumerStatefulWidget {
@@ -90,6 +89,16 @@ class _EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                         style: const TextStyle(color: Colors.red),
                       ),
                     ),
+                  // 회원가입 버튼 추가
+                  TextButton(
+                    onPressed: () {
+                      context.go('/signup'); // 회원가입 화면으로 이동
+                    },
+                    child: const Text(
+                      "아직 계정이 없으신가요? 회원가입",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -98,35 +107,35 @@ class _EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
       ),
     );
   }
+}
 
-  // Text Field Widget
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required bool obscureText,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        child: TextFormField(
-          controller: controller,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: InputBorder.none,
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your $hintText';
-            }
-            return null;
-          },
+// Text Field Widget
+Widget _buildTextField({
+  required TextEditingController controller,
+  required String hintText,
+  required bool obscureText,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.8),
+      borderRadius: BorderRadius.circular(25),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: InputBorder.none,
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your $hintText';
+          }
+          return null;
+        },
       ),
-    );
-  }
+    ),
+  );
 }

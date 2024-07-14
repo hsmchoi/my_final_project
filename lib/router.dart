@@ -1,7 +1,6 @@
 // In router.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/views/email_login_screen.dart';
 import 'package:my_final_project/views/home_screen.dart';
 import 'package:my_final_project/views/login_screen.dart';
@@ -20,7 +19,7 @@ GoRouter createRouter(WidgetRef ref) {
             const LoginScreen(),
         routes: <GoRoute>[
           GoRoute(
-            path: 'email',
+            path: 'email', // 기존: 'email'  -> 변경: '/email'
             builder: (BuildContext context, GoRouterState state) =>
                 const EmailLoginScreen(),
           ),
@@ -44,18 +43,18 @@ GoRouter createRouter(WidgetRef ref) {
         ],
       ),
     ],
-    redirect: (BuildContext context, GoRouterState state) {
-      // Now you can use ref.read here
-      final bool isLoggedIn = ref.read(authRepositoryProvider).isLoggedIn;
-      final bool isLoggingIn = state.matchedLocation == '/login';
+    // redirect: (BuildContext context, GoRouterState state) {
+    //   // Now you can use ref.read here
+    //   final bool isLoggedIn = ref.read(authRepositoryProvider).isLoggedIn;
+    //   final bool isLoggingIn = state.matchedLocation == '/login';
 
-      if (!isLoggedIn && !isLoggingIn) {
-        return '/login';
-      } else if (isLoggedIn && isLoggingIn) {
-        return '/';
-      }
+    //   if (!isLoggedIn && !isLoggingIn) {
+    //     return '/login';
+    //   } else if (isLoggedIn && isLoggingIn) {
+    //     return '/';
+    //   }
 
-      return null;
-    },
+    //   return null;
+    // },
   );
 }
