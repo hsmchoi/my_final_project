@@ -119,7 +119,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 .showAnimation();
                           }
                         },
-                        child: const Text('Save'),
+                        child: const Text('Save🫠'),
                       ),
                     ],
                   ),

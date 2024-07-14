@@ -1,3 +1,4 @@
+//item_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_final_project/models/item_model.dart';
@@ -32,11 +33,12 @@ class ItemRepository {
   }
 
   // Delete an item by its ID
-  Future<void> deleteItem(String itemId) async {
+  Future<void> deleteItem(String userId, String itemId) async {
     try {
+      // users/{userId}/items/{itemId} 컬렉션에서 삭제
       await _firestore
           .collection('users')
-          .doc()
+          .doc(userId)
           .collection('items')
           .doc(itemId)
           .delete();
