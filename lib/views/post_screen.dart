@@ -58,7 +58,10 @@ class PostScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Mood: ${reflection.content}', // Display content as Mood
+              '질문 : ${reflection.questionContent}',
+            ),
+            Text(
+              '답변 : ${reflection.content}', // Display content as Mood
               style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
