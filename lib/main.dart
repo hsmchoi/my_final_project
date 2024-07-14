@@ -30,7 +30,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // GoRouter를 사용하여 라우팅을 설정합니다.
-      home: const LoginScreenChoice(),
+      home: const LoginScreen(),
     );
   }
 }
