@@ -10,43 +10,36 @@ import 'package:my_final_project/views/sign_up_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Function to create GoRouter with access to WidgetRef
-
 GoRouter createRouter(WidgetRef ref) {
   return GoRouter(
     initialLocation: '/login',
     routes: <GoRoute>[
-      // ... (기존 라우트) ...
-
+      GoRoute(
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) =>
+            const LoginScreen(),
+        routes: <GoRoute>[
+          GoRoute(
+            path: 'email',
+            builder: (BuildContext context, GoRouterState state) =>
+                const EmailLoginScreen(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/signup',
+        builder: (BuildContext context, GoRouterState state) =>
+            const SignUpScreen(),
+      ),
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          child: const HomeScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(-1.0, 0.0), // 오른쪽에서 왼쪽으로
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          ),
-        ),
+        builder: (BuildContext context, GoRouterState state) =>
+            const HomeScreen(),
         routes: [
           GoRoute(
-            path: 'posts',
-            pageBuilder: (context, state) => CustomTransitionPage(
-              key: state.pageKey,
-              child: const PostScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1.0, 0.0), // 왼쪽에서 오른쪽으로
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
-            ),
+            path:
+                'posts', // This path should match the name in BottomNavigationBar
+            builder: (context, state) => const PostScreen(),
           ),
         ],
       ),

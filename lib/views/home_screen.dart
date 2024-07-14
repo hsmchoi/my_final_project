@@ -1,5 +1,6 @@
 //views/home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/view_models/home_view_model.dart';
@@ -31,26 +32,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        // title: const Text('Heraclitus\' Flow'),
-        flexibleSpace: Container(
-          // flexibleSpace를 사용하여 그라데이션 적용
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[
-                Color.fromARGB(255, 239, 248, 255),
-                Color.fromARGB(255, 239, 248, 255)
-              ], // 원하는 색상으로 변경
-            ),
-          ),
-        ),
         actions: [
           IconButton(
             onPressed: () async {
-              await ref.read(authRepositoryProvider).signOut();
-              // 로그아웃 후 로그인 화면으로 이동
-              if (mounted) Navigator.pushReplacementNamed(context, '/login');
+              // 로그아웃 확인 대화상자 표시
+              await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("로그아웃"),
+                    content: const Text("로그아웃 하시겠습니까?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("취소"),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await ref.read(authRepositoryProvider).signOut();
+                          // 앱 종료
+                          SystemNavigator.pop();
+                        },
+                        child: const Text("로그아웃",
+                            style: TextStyle(color: Colors.red)),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             icon: const Icon(Icons.logout),
           ),
