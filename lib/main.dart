@@ -1,10 +1,10 @@
-//main.dart
-
+// main.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_final_project/firebase_options.dart';
+import 'package:my_final_project/views/post_screen.dart'; // Import your PostsScreen!
 import 'package:my_final_project/router.dart'; // router.dart import
 
 void main() async {

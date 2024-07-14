@@ -6,6 +6,7 @@ import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/views/email_login_screen.dart';
 import 'package:my_final_project/views/home_screen.dart';
 import 'package:my_final_project/views/login_screen.dart';
+import 'package:my_final_project/views/post_screen.dart'; // Don't forget to import PostsScreen
 import 'package:my_final_project/views/sign_up_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,24 +18,29 @@ GoRouter createRouter(WidgetRef ref) {
       GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) =>
-            const LoginScreen(),
+        const LoginScreen(),
         routes: <GoRoute>[
           GoRoute(
             path: 'email',
             builder: (BuildContext context, GoRouterState state) =>
-                const EmailLoginScreen(),
+            const EmailLoginScreen(),
           ),
         ],
       ),
       GoRoute(
         path: '/signup',
         builder: (BuildContext context, GoRouterState state) =>
-            const SignUpScreen(),
+        const SignUpScreen(),
       ),
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomeScreen(),
+        builder: (BuildContext context, GoRouterState state) => const HomeScreen(),
+        routes: [
+          GoRoute(
+            path: 'posts', // This path should match the name in BottomNavigationBar
+            builder: (context, state) => const PostsScreen(),
+          ),
+        ],
       ),
     ],
     redirect: (BuildContext context, GoRouterState state) {

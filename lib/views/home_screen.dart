@@ -1,6 +1,7 @@
-//views/home_screen.dart
+// views/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart'; // Import go_router
 import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/view_models/home_view_model.dart';
 import 'package:my_final_project/widgets/custom_background.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final TextEditingController _answerController = TextEditingController();
+  int _selectedIndex = 0; // Index to track which tab is selected
 
   @override
   void dispose() {
@@ -117,6 +119,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           // Star Particle Widget
           const StarParticleWidget(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+            if (index == 1) {
+              context.go(
+                  '/posts'); // Navigate to PostsScreen when Posts tab is tapped
+            }
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Posts')
         ],
       ),
     );
