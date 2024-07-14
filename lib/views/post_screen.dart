@@ -54,11 +54,22 @@ class PostScreen extends ConsumerWidget {
       },
       child: Card(
         margin: const EdgeInsets.only(bottom: 16.0),
-        color: const Color(0xFF87CEEB),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
+        // Container를 사용하여 그라데이션 적용
         child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 237, 247, 255),
+                Color.fromARGB(255, 237, 190, 152),
+              ], // 원하는 색상으로 변경 가능
+            ),
+          ),
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
