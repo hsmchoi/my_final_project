@@ -4,44 +4,117 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_final_project/models/item_model.dart';
 import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/repositories/item_repository.dart';
+import 'package:my_final_project/widgets/custom_background.dart'; // 배경 위젯 import
+import 'package:my_final_project/widgets/wave_widget.dart'; // 파도 위젯 import
+import 'package:go_router/go_router.dart'; // Import go_router
 
-class PostScreen extends ConsumerWidget {
+class PostScreen extends ConsumerStatefulWidget {
   const PostScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PostScreen> createState() => _PostScreenState();
+}
+
+class _PostScreenState extends ConsumerState<PostScreen> {
+  final int _selectedIndex = 1; // Posts 화면의 인덱스는 1
+  @override
+  Widget build(BuildContext context) {
+    // WidgetRef 제거
+    // build 메서드 내에서 ref 사용 시, ref.watch() 사용
     final userId = ref.watch(authRepositoryProvider).user!.uid;
     final reflectionsStream =
         ref.watch(itemRepositoryProvider).getItemsStream(userId);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Reflections'),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: StreamBuilder<List<ItemModel>>(
-          stream: reflectionsStream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            }
-            final reflections = snapshot.data ?? [];
-
-            return ListView.builder(
-              itemCount: reflections.length,
-              itemBuilder: (context, index) {
-                final reflection = reflections[index];
-                return _buildReflectionCard(
-                    context, ref, reflection); // context, ref 추가
-              },
-            );
-          },
+        flexibleSpace: Container(
+          // flexibleSpace를 사용하여 그라데이션 적용
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Color.fromARGB(255, 239, 248, 255),
+                Color.fromARGB(255, 239, 248, 255)
+              ], // 원하는 색상으로 변경
+            ),
+          ),
         ),
       ),
+      body: Stack(
+        children: [
+          const CustomBackground(),
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: WaveWidget(),
+          ),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: StreamBuilder<List<ItemModel>>(
+              stream: reflectionsStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                final reflections = snapshot.data ?? [];
+
+                return ListView.builder(
+                  itemCount: reflections.length,
+                  itemBuilder: (context, index) {
+                    final reflection = reflections[index];
+                    return _buildReflectionCard(
+                        context, ref, reflection); // context, ref 추가
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: const Color.fromARGB(255, 255, 241, 241),
+      //   elevation: 0,
+      //   items: <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Container(
+      //         padding: const EdgeInsets.all(8.0),
+      //         decoration: BoxDecoration(
+      //           shape: BoxShape.circle,
+      //           color: Colors.white.withOpacity(0),
+      //         ),
+      //         child: const Icon(Icons.home, color: Colors.black),
+      //       ),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Container(
+      //         padding: const EdgeInsets.all(8.0),
+      //         decoration: BoxDecoration(
+      //           shape: BoxShape.circle,
+      //           color: Colors.white.withOpacity(0),
+      //         ),
+      //         child: const Icon(Icons.article, color: Colors.black),
+      //       ),
+      //       label: 'Posts',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   onTap: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //     if (index == 0) {
+      //       context.go('/');
+      //     } else if (index == 1) {
+      //       context.go('/posts');
+      //     }
+      //   },
+      // ),
     );
   }
 
@@ -65,8 +138,8 @@ class PostScreen extends ConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color.fromARGB(255, 237, 247, 255),
-                Color.fromARGB(255, 237, 190, 152),
+                Color.fromARGB(255, 255, 241, 241),
+                Color.fromARGB(255, 255, 241, 241)
               ], // 원하는 색상으로 변경 가능
             ),
           ),

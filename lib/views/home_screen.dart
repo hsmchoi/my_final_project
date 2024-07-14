@@ -31,7 +31,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Heraclitus\' Flow'),
+        // title: const Text('Heraclitus\' Flow'),
+        flexibleSpace: Container(
+          // flexibleSpace를 사용하여 그라데이션 적용
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Color.fromARGB(255, 239, 248, 255),
+                Color.fromARGB(255, 239, 248, 255)
+              ], // 원하는 색상으로 변경
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -69,6 +82,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
+                color: const Color.fromARGB(255, 255, 241, 241),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0), // Increase padding
                   child: Column(
@@ -132,13 +146,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        backgroundColor:
+            const Color.fromARGB(255, 255, 241, 241), // 배경색을 투명하게 설정
+        elevation: 0, // 그림자 제거
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0), // 흰색에 50% 투명도 적용
+              ),
+              child: const Icon(Icons.home, color: Colors.black),
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.article),
+            icon: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0), // 흰색에 50% 투명도 적용
+              ),
+              child: const Icon(Icons.article, color: Colors.black),
+            ),
             label: 'Posts',
           ),
         ],
