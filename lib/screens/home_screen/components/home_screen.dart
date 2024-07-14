@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 builder: (context, child) {
                   return CustomPaint(
                     painter: WavePainter(_waveAnimation.value),
-                    size: const Size(700, 900),
+                    size: const Size(350, 450),
                   );
                 },
               ),
