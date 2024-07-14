@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +16,9 @@ class _LoginScreenState extends State<LoginScreen>
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
   late Animation<double> _waveAnimation;
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -49,6 +54,8 @@ class _LoginScreenState extends State<LoginScreen>
   void dispose() {
     // 컨트롤러 해제
     _animationController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -60,95 +67,134 @@ class _LoginScreenState extends State<LoginScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.blue, Colors.indigo],
+            colors: [
+              Color.fromARGB(255, 237, 247, 255),
+              Color.fromARGB(255, 237, 190, 152),
+            ],
           ),
         ),
         child: Center(
           child: AnimatedBuilder(
             animation: _animationController,
             builder: (context, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Opacity 애니메이션을 적용한 입력 필드
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 50.0), // 아이콘 아래쪽 여백
-                    child: Image.network(
-                      'https://raw.githubusercontent.com/hsmchoi/my_final_project/main/assets/images/app_icon.png', // 실제 아이콘 파일 경로로 수정
-                      width: 300, // 아이콘 크기 조정
-                      height: 300,
-                    ),
-                  ),
-                  Opacity(
-                    opacity: _opacityAnimation.value,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10.0),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(20.0),
+              return Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Opacity 애니메이션을 적용한 입력 필드
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 50.0), // 아이콘 아래쪽 여백
+                      child: Image.network(
+                        'https://raw.githubusercontent.com/hsmchoi/my_final_project/main/assets/images/app_icon.png', // 실제 아이콘 파일 경로로 수정
+                        width: 300, // 아이콘 크기 조정
+                        height: 300,
                       ),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          hintText: '이메일',
-                          border: InputBorder.none,
+                    ),
+                    //이메일 입력 필드
+                    Opacity(
+                      opacity: _opacityAnimation.value,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: '이메일',
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return '이메일을 입력하세요.';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
-                  ),
-                  Opacity(
-                    opacity: _opacityAnimation.value,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10.0),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: const TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: '비밀번호',
-                          border: InputBorder.none,
+                    Opacity(
+                      opacity: _opacityAnimation.value,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            hintText: '비밀번호',
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return '비밀번호를 입력하세요.';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
-                  ),
-                  // TODO: 로그인 버튼 추가
-                  SizedBox(
-                    height: 50,
-                    width: 250,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Firebase 인증 로직 추가
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.white.withOpacity(0.8), // 버튼 색상 설정
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20), // 버튼 모양 설정
+                    //그인 버튼
+                    SizedBox(
+                      height: 50,
+                      width: 250,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // Firebase 인증 로직
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              );
+                              if (mounted) context.go('/'); //로그인 성공시 홈으로
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                print('등록되지 않은 이메일입니다.');
+                              } else if (e.code == 'wrong-password') {
+                                print('비밀번호가 올바르지 않습니다.');
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.white.withOpacity(0.8), // 버튼 색상 설정
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20), // 버튼 모양 설정
+                          ),
                         ),
-                      ),
-                      child: const Text(
-                        '로그인',
-                        style: TextStyle(
-                          color: Colors.indigo, // 텍스트 색상 설정
-                          fontSize: 16,
+                        child: const Text(
+                          '로그인',
+                          style: TextStyle(
+                            color: Colors.indigo, // 텍스트 색상 설정
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 50.0), // 간격 조정
-                  const SizedBox(height: 50.0), // 간격 조정
-
-                  // 물결 애니메이션 위젯
-                  CustomPaint(
-                    painter: _WavePainter(_waveAnimation.value),
-                    size: Size(MediaQuery.of(context).size.width, 100),
-                  ),
-                ],
+                    const SizedBox(height: 50.0), // 간격 조정
+                    const SizedBox(height: 50.0), // 간격 조정
+                    const SizedBox(height: 50.0), // 간격 조정
+                    // 물결 애니메이션 위젯
+                    CustomPaint(
+                      painter: _WavePainter(_waveAnimation.value),
+                      size: Size(MediaQuery.of(context).size.width, 100),
+                    ),
+                  ],
+                ),
               );
             },
           ),
