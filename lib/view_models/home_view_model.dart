@@ -29,11 +29,10 @@ class HomeViewModel extends ChangeNotifier {
     final String userId = ref.read(authRepositoryProvider).user!.uid;
     final Timestamp now = Timestamp.now();
     final ItemModel newItem = ItemModel(
-      id: '',
+      id: '', // Firestore generates ID automatically
       questionId: currentQuestionIndex.toString(),
-      questionContent: currentQuestion, // Add this line!
       content: answer,
-      createdAt: now,
+      createdAt: now, questionContent: '',
     );
 
     await ref.read(itemRepositoryProvider).addItem(userId, newItem);

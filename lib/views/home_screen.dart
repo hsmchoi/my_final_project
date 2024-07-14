@@ -1,7 +1,5 @@
-// views/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart'; // Import go_router
 import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/view_models/home_view_model.dart';
 import 'package:my_final_project/widgets/custom_background.dart';
@@ -17,7 +15,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final TextEditingController _answerController = TextEditingController();
-  int _selectedIndex = 0; // Index to track which tab is selected
 
   @override
   void dispose() {
@@ -55,10 +52,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             right: 0,
             child: WaveWidget(),
           ),
-
-          // Question Card
+          // Question and Answer Card
           Positioned(
             top: 100,
+            left: MediaQuery.of(context).size.width * 0.1,
+            right: MediaQuery.of(context).size.width * 0.1,
             child: GestureDetector(
               onTap: () {
                 homeViewModel.nextQuestion();
@@ -69,72 +67,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    homeViewModel.currentQuestion,
-                    style: const TextStyle(
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
+                  padding: const EdgeInsets.all(20.0), // Increase padding
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Question Text
+                      Text(
+                        homeViewModel.currentQuestion,
+                        style: const TextStyle(
+                          fontSize: 18.0, // Increase font size
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      // Answer Input Field
+                      TextField(
+                        controller: _answerController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your reflection...',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(), // Add a border
+                        ),
+                        style: const TextStyle(
+                            fontSize: 16.0, color: Colors.black),
+                        maxLines: null, // Allow multiple lines
+                      ),
+                      const SizedBox(height: 10),
+                      // Save Button
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (_answerController.text.isNotEmpty) {
+                            await homeViewModel
+                                .saveAnswer(_answerController.text);
+                            _answerController.clear();
+                            // Option 1: Show success message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Reflection saved!')),
+                            );
+                            // Option 2: Load next question
+                            // homeViewModel.nextQuestion();
+                            // Show star particle animation
+                            ref
+                                .read(starParticleProvider.notifier)
+                                .showAnimation();
+                          }
+                        },
+                        child: const Text('Save'),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
 
-          // Answer Input Field
-          Positioned(
-            top: 250,
-            left: MediaQuery.of(context).size.width * 0.1,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _answerController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your reflection...',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      border: InputBorder.none,
-                    ),
-                    style: const TextStyle(fontSize: 16.0, color: Colors.black),
-                    maxLines: null,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_answerController.text.isNotEmpty) {
-                        await homeViewModel.saveAnswer(_answerController.text);
-                        _answerController.clear();
-                        homeViewModel.nextQuestion();
-                        // Show star particle animation
-                        ref.read(starParticleProvider.notifier).showAnimation();
-                      }
-                    },
-                    child: const Text('Save'),
-                  ),
-                ],
-              ),
-            ),
-          ),
           // Star Particle Widget
           const StarParticleWidget(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-            if (index == 1) {
-              context.go(
-                  '/posts'); // Navigate to PostsScreen when Posts tab is tapped
-            }
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Posts')
         ],
       ),
     );
