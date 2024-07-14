@@ -39,7 +39,7 @@ GoRouter createRouter(WidgetRef ref) {
           GoRoute(
             path:
                 'posts', // This path should match the name in BottomNavigationBar
-            builder: (context, state) => const PostsScreen(),
+            builder: (context, state) => const PostScreen(),
           ),
         ],
       ),
