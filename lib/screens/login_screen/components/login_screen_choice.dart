@@ -67,6 +67,7 @@ class LoginScreen extends StatelessWidget {
       {required IconData icon, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
+      
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(

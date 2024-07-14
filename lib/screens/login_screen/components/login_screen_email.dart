@@ -88,8 +88,8 @@ class _LoginScreenEmailState extends State<LoginScreenEmail>
                           const EdgeInsets.only(bottom: 50.0), // 아이콘 아래쪽 여백
                       child: Image.network(
                         'https://raw.githubusercontent.com/hsmchoi/my_final_project/main/assets/images/app_icon.png', // 실제 아이콘 파일 경로로 수정
-                        width: 300, // 아이콘 크기 조정
-                        height: 300,
+                        width: 150, // 아이콘 크기 조정
+                        height: 150,
                       ),
                     ),
                     //이메일 입력 필드

@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class CustomBackground extends StatefulWidget {
-  const CustomBackground({Key? key}) : super(key: key);
+  const CustomBackground({super.key});
 
   @override
   State<CustomBackground> createState() => _CustomBackgroundState();
@@ -153,9 +153,9 @@ class _SkyPainter extends CustomPainter {
     final Gradient gradient = LinearGradient(
       begin: FractionalOffset.topCenter,
       end: FractionalOffset.bottomCenter,
-      colors: [
-        const Color.fromARGB(255, 107, 170, 255),
-        const Color.fromARGB(255, 255, 225, 229),
+      colors: const [
+        Color.fromARGB(255, 107, 170, 255),
+        Color.fromARGB(255, 255, 225, 229),
       ],
       stops: [0.0, animationValue], // 애니메이션 값에 따라 그라데이션 변경
     );

@@ -9,24 +9,25 @@ import '../../../widgets/custom_widget.dart';
 
 // 홈 화면을 나타내는 Stateful 위젯입니다.
 // Stateful 위젯은 상태를 가지며, 상태 변화에 따라 UI를 업데이트할 수 있습니다.
-class HomeScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   // 라우트 이름과 URL을 상수로 정의합니다.
   // 라우트 이름은 앱 내에서 특정 화면을 식별하는 데 사용됩니다.
   // 라우트 URL은 브라우저 주소 표시줄에 표시되는 URL입니다.
-  static const routeName = 'home';
+  static const routeName = 'login';
   static const routeURL = '/';
 
-  const HomeScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   // State 객체를 생성하여 반환합니다.
   // State 객체는 Stateful 위젯의 상태를 관리합니다.
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-// HomeScreen의 상태를 관리하는 State 클래스입니다.
+// LoginScreen의 상태를 관리하는 State 클래스입니다.
 // SingleTickerProviderStateMixin을 사용하여 애니메이션을 제어합니다.
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   // 애니메이션 컨트롤러는 애니메이션의 시작, 정지, 반복 등을 제어합니다.
   late AnimationController _animationController;
   // 애니메이션 객체는 애니메이션의 현재 값을 나타냅니다.
@@ -135,9 +136,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('헤라클리토스의 흐름'),
-      // ),
+      appBar: AppBar(
+        title: const Text('헤라클리토스의 흐름'),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
