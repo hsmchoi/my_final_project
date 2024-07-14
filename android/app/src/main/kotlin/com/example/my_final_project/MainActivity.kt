@@ -1,4 +1,4 @@
-package com.example.my_final_project
+package hsm.mf.app
 
 import io.flutter.embedding.android.FlutterActivity
 

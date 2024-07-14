@@ -67,11 +67,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     homeViewModel.currentQuestion,
                     style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,

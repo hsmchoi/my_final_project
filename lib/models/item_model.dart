@@ -2,10 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemModel {
-  final String id; // Firestore 문서 ID
-  final String questionId; // 질문 ID
-  final String content; // 답변 내용
-  final Timestamp createdAt; // 작성 시간
+  final String id;
+  final String questionId;
+  final String content;
+  final Timestamp createdAt;
 
   ItemModel({
     required this.id,
@@ -14,7 +14,6 @@ class ItemModel {
     required this.createdAt,
   });
 
-  // Firestore 문서에서 ItemModel 객체 생성
   factory ItemModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
     return ItemModel(
@@ -25,7 +24,6 @@ class ItemModel {
     );
   }
 
-  // Firestore에 저장할 데이터 형태로 변환
   Map<String, dynamic> toFirestore() {
     return {
       'questionId': questionId,

@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  GoRouter.optionURLReflectsImperativeAPIs = true;
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -24,11 +24,10 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Access GoRouter through the function
-    final GoRouter router = createRouter(ref);
+    final router = createRouter(ref); // GoRouter 생성
 
     return MaterialApp.router(
-      routerConfig: router, // Use the router here
+      routerConfig: router, // MaterialApp.router 에 GoRouter 설정
       title: 'Heraclitus\' Flow',
       theme: ThemeData(
         primarySwatch: Colors.blue,

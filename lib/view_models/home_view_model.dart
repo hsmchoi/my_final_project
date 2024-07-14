@@ -1,5 +1,4 @@
 //view_models/home_view_model.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,22 +17,19 @@ class HomeViewModel extends ChangeNotifier {
 
   HomeViewModel(this.ref);
 
-  // Get the current question
   String get currentQuestion => socratesQuestions[currentQuestionIndex];
 
-  // Move to the next question
   void nextQuestion() {
     currentQuestionIndex =
         (currentQuestionIndex + 1) % socratesQuestions.length;
     notifyListeners();
   }
 
-  // Save the answer to Firestore
   Future<void> saveAnswer(String answer) async {
     final String userId = ref.read(authRepositoryProvider).user!.uid;
     final Timestamp now = Timestamp.now();
     final ItemModel newItem = ItemModel(
-      id: '', // Firestore에서 자동으로 ID 생성
+      id: '', // Firestore generates ID automatically
       questionId: currentQuestionIndex.toString(),
       content: answer,
       createdAt: now,
@@ -41,4 +37,16 @@ class HomeViewModel extends ChangeNotifier {
 
     await ref.read(itemRepositoryProvider).addItem(userId, newItem);
   }
+
+  // StreamProvider for reflections
+  final itemsStreamProvider =
+      StreamProvider.autoDispose<List<ItemModel>>((ref) {
+    final authRepository = ref.watch(authRepositoryProvider);
+    final user = authRepository.user;
+    if (user != null) {
+      return ref.read(itemRepositoryProvider).getItemsStream(user.uid);
+    } else {
+      return Stream.value([]); // Or throw an error
+    }
+  });
 }

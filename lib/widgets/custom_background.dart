@@ -84,7 +84,7 @@ class _CustomBackgroundState extends State<CustomBackground>
                   child: CustomPaint(
                     painter: _SkyPainter(_sunAnimation.value),
                     size: Size(MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height * 0.5),
+                        MediaQuery.of(context).size.height * 0.1),
                   ),
                 ),
 

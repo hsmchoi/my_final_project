@@ -39,8 +39,7 @@ GoRouter createRouter(WidgetRef ref) {
     ],
     redirect: (BuildContext context, GoRouterState state) {
       // Now you can use ref.read here
-      final bool isLoggedIn =
-          ref.read(authRepositoryProvider).isLoggedIn;
+      final bool isLoggedIn = ref.read(authRepositoryProvider).isLoggedIn;
       final bool isLoggingIn = state.matchedLocation == '/login';
 
       if (!isLoggedIn && !isLoggingIn) {

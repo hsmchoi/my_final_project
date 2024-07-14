@@ -1,6 +1,7 @@
 //views/login_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_final_project/view_models/login_view_model.dart';
 import 'package:my_final_project/widgets/custom_background.dart';
 
@@ -29,7 +30,8 @@ class LoginScreen extends ConsumerWidget {
                 _buildLoginButton(
                   icon: Icons.email,
                   onTap: () {
-                    Navigator.pushNamed(context, '/login/email');
+                    print("d");
+                    context.go('/login/email'); // Use context.go()
                   },
                 ),
                 // Google Login Button

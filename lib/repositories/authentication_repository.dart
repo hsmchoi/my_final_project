@@ -8,16 +8,12 @@ class AuthenticationRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  // Check if a user is logged in
   bool get isLoggedIn => user != null;
 
-  // Get the current user
   User? get user => _firebaseAuth.currentUser;
 
-  // Stream of authentication state changes
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
-  // Sign in with email and password
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
@@ -25,7 +21,6 @@ class AuthenticationRepository {
     );
   }
 
-  // Create a user with email and password
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
@@ -34,7 +29,6 @@ class AuthenticationRepository {
     );
   }
 
-  // Sign in with Google
   Future<void> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -50,11 +44,9 @@ class AuthenticationRepository {
       }
     } catch (e) {
       print('Error signing in with Google: $e');
-      // Handle error appropriately, e.g., show an error message to the user
     }
   }
 
-  // Sign in with Apple
   Future<void> signInWithApple() async {
     try {
       final AuthorizationCredentialAppleID credential =
@@ -74,14 +66,12 @@ class AuthenticationRepository {
       await _firebaseAuth.signInWithCredential(firebaseCredential);
     } catch (e) {
       print('Error signing in with Apple: $e');
-      // Handle error appropriately, e.g., show an error message to the user
     }
   }
 
-  // Sign out
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
-    await _googleSignIn.signOut(); // Sign out from Google as well
+    await _googleSignIn.signOut();
   }
 }
 
