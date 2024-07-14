@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>39180788779-ps440tofvrfj8pepe7ghetnvnocnakut.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.39180788779-ps440tofvrfj8pepe7ghetnvnocnakut</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAwryn427uKZSmNrvpYeWVIViastU83A6g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>39180788779</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.myFinalProject</string>
+	<key>PROJECT_ID</key>
+	<string>fi-chel-pjt</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fi-chel-pjt.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:39180788779:ios:576c4c9852948e8d12f66e</string>
+	<key>DATABASE_URL</key>
+	<string>https://fi-chel-pjt-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

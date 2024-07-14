@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "39180788779",
+    "firebase_url": "https://fi-chel-pjt-default-rtdb.firebaseio.com",
+    "project_id": "fi-chel-pjt",
+    "storage_bucket": "fi-chel-pjt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39180788779:android:3c5b3f0552f639af12f66e",
+        "android_client_info": {
+          "package_name": "fi.chel.pjt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39180788779-j493ghv0t2rd9bsnld0ndnvj4ac463ua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl_T0DWUicyw5I13LIj_oE0rh5TLmYld8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39180788779-j493ghv0t2rd9bsnld0ndnvj4ac463ua.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "39180788779-ps440tofvrfj8pepe7ghetnvnocnakut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myFinalProject"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39180788779:android:21b5173d3bca842a12f66e",
+        "android_client_info": {
+          "package_name": "hsm.mf.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39180788779-j493ghv0t2rd9bsnld0ndnvj4ac463ua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl_T0DWUicyw5I13LIj_oE0rh5TLmYld8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39180788779-j493ghv0t2rd9bsnld0ndnvj4ac463ua.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "39180788779-ps440tofvrfj8pepe7ghetnvnocnakut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myFinalProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,49 +1,44 @@
-// home_view_model.dart
-import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/analysis/utilities.dart' as analyzer;
+//view_models/home_view_model.dart
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_final_project/data/card/questions.dart';
+import 'package:my_final_project/models/item_model.dart';
+
+import '../repositories/authentication_repository.dart';
+import '../repositories/item_repository.dart';
+
+final homeViewModelProvider =
+    ChangeNotifierProvider((ref) => HomeViewModel(ref));
 
 class HomeViewModel extends ChangeNotifier {
-  // 추출된 키워드를 저장할 리스트
-  List<String> _extractedKeywords = [];
-  List<String> get extractedKeywords => _extractedKeywords;
+  final Ref ref;
+  int currentQuestionIndex = 0;
 
-  // 입력 필드 컨트롤러
-  final TextEditingController _answerController = TextEditingController();
+  HomeViewModel(this.ref);
 
-  // 생성자
-  HomeViewModel() {
-    _answerController.addListener(_extractKeywords);
-  }
+  // Get the current question
+  String get currentQuestion => socratesQuestions[currentQuestionIndex];
 
-  // 키워드 추출 함수
-  void _extractKeywords() {
-    _extractedKeywords = extractKeywords(_answerController.text);
+  // Move to the next question
+  void nextQuestion() {
+    currentQuestionIndex =
+        (currentQuestionIndex + 1) % socratesQuestions.length;
     notifyListeners();
   }
 
-  // _answerController를  외부에서  접근할  수  있도록  getter를  추가합니다.
-  TextEditingController get answerController => _answerController;
+  // Save the answer to Firestore
+  Future<void> saveAnswer(String answer) async {
+    final String userId = ref.read(authRepositoryProvider).user!.uid;
+    final Timestamp now = Timestamp.now();
+    final ItemModel newItem = ItemModel(
+      id: '', // Firestore에서 자동으로 ID 생성
+      questionId: currentQuestionIndex.toString(),
+      content: answer,
+      createdAt: now,
+    );
 
-  // 키워드 추출 로직 (analyzer 패키지 사용)
-  List<String> extractKeywords(String text) {
-    final parseResult = analyzer.parseString(content: text);
-    final keywords = <String>[];
-
-    void visitNode(AstNode node) {
-      if (node is SimpleIdentifier) {
-        final token = node.token;
-        if (token.isKeyword) {
-          keywords.add(token.lexeme);
-        }
-      }
-      for (var child in node.childEntities) {
-        visitNode(child as AstNode); // SyntacticEntity를 AstNode로 변경합니다.
-      }
-    }
-
-    visitNode(parseResult.unit);
-
-    return keywords.toSet().toList();
+    await ref.read(itemRepositoryProvider).addItem(userId, newItem);
   }
 }

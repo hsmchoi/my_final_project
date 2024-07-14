@@ -1,19 +1,23 @@
+//views/login_screen.dart
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_final_project/view_models/login_view_model.dart';
+import 'package:my_final_project/widgets/custom_background.dart';
 
-import '../../../widgets/custom_background.dart'; // 커스텀 배경 위젯 import
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginViewModel = ref.watch(loginViewModelProvider);
+
     return Scaffold(
       body: Stack(
         children: [
-          // 커스텀 배경 위젯 추가
+          // Custom Background
           const CustomBackground(),
-          // 로그인 버튼
+
+          // Login Buttons
           Positioned(
             bottom: MediaQuery.of(context).size.height * 0.1,
             left: 0,
@@ -21,37 +25,27 @@ class LoginScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // 이메일 로그인 버튼
+                // Email Login Button
                 _buildLoginButton(
                   icon: Icons.email,
                   onTap: () {
-                    context.go('/login/email'); // 이메일 로그인 화면으로 이동
+                    Navigator.pushNamed(context, '/login/email');
                   },
                 ),
-                // 구글 로그인 버튼
+                // Google Login Button
                 _buildLoginButton(
                   icon: Icons.g_mobiledata,
                   onTap: () async {
-                    try {
-                      // TODO: Firebase 구글 로그인 로직 추가
-                      print('구글 로그인');
-                      context.go('/');
-                    } catch (e) {
-                      print('구글 로그인 실패: $e');
-                    }
+                    await loginViewModel
+                        .signInWithGoogle(); // Call the signInWithGoogle method
                   },
                 ),
-                // 애플 로그인 버튼
+                // Apple Login Button
                 _buildLoginButton(
                   icon: Icons.apple,
                   onTap: () async {
-                    try {
-                      // TODO: Firebase 애플 로그인 로직 추가
-                      print('애플 로그인');
-                      context.go('/');
-                    } catch (e) {
-                      print('애플 로그인 실패: $e');
-                    }
+                    await loginViewModel
+                        .signInWithApple(); // Call the signInWithApple method
                   },
                 ),
               ],
@@ -62,12 +56,11 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  // 로그인 버튼 위젯
+  // Login Button Widget
   Widget _buildLoginButton(
       {required IconData icon, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
-      
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
