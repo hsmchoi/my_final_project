@@ -74,9 +74,9 @@ class _LoginScreenState extends State<LoginScreen>
                   Padding(
                     padding: const EdgeInsets.only(bottom: 50.0), // 아이콘 아래쪽 여백
                     child: Image.network(
-                      'https://github.com/hsmchoi/my_final_project/blob/main/assets/images/app_icon.png', // 실제 아이콘 파일 경로로 수정
-                      width: 100, // 아이콘 크기 조정
-                      height: 100,
+                      'https://raw.githubusercontent.com/hsmchoi/my_final_project/main/assets/images/app_icon.png', // 실제 아이콘 파일 경로로 수정
+                      width: 300, // 아이콘 크기 조정
+                      height: 300,
                     ),
                   ),
                   Opacity(
@@ -117,6 +117,30 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                   // TODO: 로그인 버튼 추가
+                  SizedBox(
+                    height: 50,
+                    width: 250,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // TODO: Firebase 인증 로직 추가
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.white.withOpacity(0.8), // 버튼 색상 설정
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20), // 버튼 모양 설정
+                        ),
+                      ),
+                      child: const Text(
+                        '로그인',
+                        style: TextStyle(
+                          color: Colors.indigo, // 텍스트 색상 설정
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 50.0), // 간격 조정
                   const SizedBox(height: 50.0), // 간격 조정
 
                   // 물결 애니메이션 위젯
