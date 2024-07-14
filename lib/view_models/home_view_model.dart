@@ -1,4 +1,4 @@
-//view_models/home_view_model.dart
+//home_view_model.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,14 +25,16 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveAnswer(String answer) async {
+  Future<void> saveAnswer(String answer, String questionContent) async {
+    // Add questionContent as a parameter
     final String userId = ref.read(authRepositoryProvider).user!.uid;
     final Timestamp now = Timestamp.now();
     final ItemModel newItem = ItemModel(
       id: '', // Firestore generates ID automatically
       questionId: currentQuestionIndex.toString(),
       content: answer,
-      createdAt: now, questionContent: '',
+      createdAt: now,
+      questionContent: questionContent, // Pass question content to ItemModel
     );
 
     await ref.read(itemRepositoryProvider).addItem(userId, newItem);
@@ -46,7 +48,9 @@ class HomeViewModel extends ChangeNotifier {
     if (user != null) {
       return ref.read(itemRepositoryProvider).getItemsStream(user.uid);
     } else {
-      return Stream.value([]); // Or throw an error
+      return Stream.value([]); // 사용자 로그아웃 시 빈 리스트 반환
     }
   });
+
+  
 }

@@ -1,5 +1,4 @@
-// lib/router.dart
-
+// In router.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_final_project/repositories/authentication_repository.dart';
@@ -18,26 +17,28 @@ GoRouter createRouter(WidgetRef ref) {
       GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) =>
-        const LoginScreen(),
+            const LoginScreen(),
         routes: <GoRoute>[
           GoRoute(
             path: 'email',
             builder: (BuildContext context, GoRouterState state) =>
-            const EmailLoginScreen(),
+                const EmailLoginScreen(),
           ),
         ],
       ),
       GoRoute(
         path: '/signup',
         builder: (BuildContext context, GoRouterState state) =>
-        const SignUpScreen(),
+            const SignUpScreen(),
       ),
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) => const HomeScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const HomeScreen(),
         routes: [
           GoRoute(
-            path: 'posts', // This path should match the name in BottomNavigationBar
+            path:
+                'posts', // This path should match the name in BottomNavigationBar
             builder: (context, state) => const PostsScreen(),
           ),
         ],

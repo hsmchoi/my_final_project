@@ -1,3 +1,4 @@
+//views/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_final_project/repositories/authentication_repository.dart';
@@ -5,6 +6,7 @@ import 'package:my_final_project/view_models/home_view_model.dart';
 import 'package:my_final_project/widgets/custom_background.dart';
 import 'package:my_final_project/widgets/star_particle_widget.dart';
 import 'package:my_final_project/widgets/wave_widget.dart';
+import 'package:go_router/go_router.dart'; // Import go_router
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +17,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final TextEditingController _answerController = TextEditingController();
+  int _selectedIndex = 0; // Add this line
 
   @override
   void dispose() {
@@ -98,8 +101,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_answerController.text.isNotEmpty) {
-                            await homeViewModel
-                                .saveAnswer(_answerController.text);
+                            await homeViewModel.saveAnswer(
+                                _answerController.text,
+                                homeViewModel
+                                    .currentQuestion); // Pass the question content
                             _answerController.clear();
                             // Option 1: Show success message
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -122,10 +127,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
           ),
-
           // Star Particle Widget
           const StarParticleWidget(),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.article),
+            label: 'Posts',
+          ),
+        ],
+        currentIndex: _selectedIndex, // Use _selectedIndex here
+        onTap: (index) {
+          // Update the state when an item is tapped
+          setState(() {
+            _selectedIndex = index;
+          });
+          if (index == 0) {
+            context.go('/');
+          } else if (index == 1) {
+            context.go('/posts');
+          }
+        },
       ),
     );
   }

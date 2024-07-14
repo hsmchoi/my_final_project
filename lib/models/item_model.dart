@@ -27,6 +27,8 @@ class ItemModel {
     );
   }
 
+  get userId => null;
+
   Map<String, dynamic> toFirestore() {
     return {
       'questionId': questionId,

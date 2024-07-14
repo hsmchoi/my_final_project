@@ -1,4 +1,3 @@
-//repositories/item_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_final_project/models/item_model.dart';
@@ -31,6 +30,22 @@ class ItemRepository {
         .map((snapshot) =>
             snapshot.docs.map((doc) => ItemModel.fromFirestore(doc)).toList());
   }
+
+  // Delete an item by its ID
+  Future<void> deleteItem(String itemId) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc()
+          .collection('items')
+          .doc(itemId)
+          .delete();
+    } catch (e) {
+      print('Error deleting item: $e');
+    }
+  }
+
+  getItemsForUser(String userId) {}
 }
 
 final itemRepositoryProvider = Provider((ref) => ItemRepository());
