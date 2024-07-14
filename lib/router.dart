@@ -1,11 +1,13 @@
-// In router.dart
+//router.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/views/email_login_screen.dart';
 import 'package:my_final_project/views/home_screen.dart';
 import 'package:my_final_project/views/login_screen.dart';
-import 'package:my_final_project/views/post_screen.dart'; // Don't forget to import PostsScreen
+import 'package:my_final_project/views/post_screen.dart';
 import 'package:my_final_project/views/sign_up_screen.dart';
+import 'package:my_final_project/views/signup_success_screen.dart'; // SignUpSuccessScreen import
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Function to create GoRouter with access to WidgetRef
@@ -19,7 +21,7 @@ GoRouter createRouter(WidgetRef ref) {
             const LoginScreen(),
         routes: <GoRoute>[
           GoRoute(
-            path: 'email', // 기존: 'email'  -> 변경: '/email'
+            path: 'email',
             builder: (BuildContext context, GoRouterState state) =>
                 const EmailLoginScreen(),
           ),
@@ -29,6 +31,11 @@ GoRouter createRouter(WidgetRef ref) {
         path: '/signup',
         builder: (BuildContext context, GoRouterState state) =>
             const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/signupSuccess', // SignUpSuccessScreen 경로
+        builder: (BuildContext context, GoRouterState state) =>
+            const SignUpSuccessScreen(),
       ),
       GoRoute(
         path: '/',

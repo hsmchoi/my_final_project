@@ -63,6 +63,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         await signUpViewModel.signUpWithEmailAndPassword(
                           _emailController.text.trim(),
                           _passwordController.text.trim(),
+                          context, // context 전달
                         );
                       }
                     },
@@ -96,35 +97,35 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       ),
     );
   }
+}
 
-  // Text Field Widget
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required bool obscureText,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        child: TextFormField(
-          controller: controller,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: InputBorder.none,
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your $hintText';
-            }
-            return null;
-          },
+// Text Field Widget
+Widget _buildTextField({
+  required TextEditingController controller,
+  required String hintText,
+  required bool obscureText,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.8),
+      borderRadius: BorderRadius.circular(25),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: InputBorder.none,
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your $hintText';
+          }
+          return null;
+        },
       ),
-    );
-  }
+    ),
+  );
 }
