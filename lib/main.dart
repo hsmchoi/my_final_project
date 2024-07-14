@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'screens/home_screen/components/home_screen.dart';
-import 'screens/login_screen/components/login_screen.dart';
+import 'screens/login_screen/components/login_screen_choice.dart';
+import 'screens/login_screen/components/login_screen_email.dart';
 
 void main() {
   // URL 반영 설정
@@ -29,7 +30,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // GoRouter를 사용하여 라우팅을 설정합니다.
-      home: const LoginScreen(),
+      home: const LoginScreenChoice(),
     );
   }
 }

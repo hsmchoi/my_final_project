@@ -4,14 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreenEmail extends StatefulWidget {
+  const LoginScreenEmail({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreenEmail> createState() => _LoginScreenEmailState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _LoginScreenEmailState extends State<LoginScreenEmail>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
