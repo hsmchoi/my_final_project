@@ -1,13 +1,12 @@
-//router.dart
+// In router.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_final_project/repositories/authentication_repository.dart';
 import 'package:my_final_project/views/email_login_screen.dart';
 import 'package:my_final_project/views/home_screen.dart';
 import 'package:my_final_project/views/login_screen.dart';
-import 'package:my_final_project/views/post_screen.dart';
+import 'package:my_final_project/views/post_screen.dart'; // Don't forget to import PostsScreen
 import 'package:my_final_project/views/sign_up_screen.dart';
-import 'package:my_final_project/views/signup_success_screen.dart'; // SignUpSuccessScreen import
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Function to create GoRouter with access to WidgetRef
@@ -33,11 +32,6 @@ GoRouter createRouter(WidgetRef ref) {
             const SignUpScreen(),
       ),
       GoRoute(
-        path: '/signupSuccess', // SignUpSuccessScreen 경로
-        builder: (BuildContext context, GoRouterState state) =>
-            const SignUpSuccessScreen(),
-      ),
-      GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) =>
             const HomeScreen(),
@@ -50,18 +44,18 @@ GoRouter createRouter(WidgetRef ref) {
         ],
       ),
     ],
-    // redirect: (BuildContext context, GoRouterState state) {
-    //   // Now you can use ref.read here
-    //   final bool isLoggedIn = ref.read(authRepositoryProvider).isLoggedIn;
-    //   final bool isLoggingIn = state.matchedLocation == '/login';
+    redirect: (BuildContext context, GoRouterState state) {
+      // Now you can use ref.read here
+      final bool isLoggedIn = ref.read(authRepositoryProvider).isLoggedIn;
+      final bool isLoggingIn = state.matchedLocation == '/login';
 
-    //   if (!isLoggedIn && !isLoggingIn) {
-    //     return '/login';
-    //   } else if (isLoggedIn && isLoggingIn) {
-    //     return '/';
-    //   }
+      if (!isLoggedIn && !isLoggingIn) {
+        return '/login';
+      } else if (isLoggedIn && isLoggingIn) {
+        return '/';
+      }
 
-    //   return null;
-    // },
+      return null;
+    },
   );
 }

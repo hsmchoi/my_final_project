@@ -62,7 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     _buildLoginButton(
                       icon: Icons.email,
                       onTap: () {
-                        context.push('/login/email'); // 빠르게 화면 전환
+                        context.push('/'); // 빠르게 화면 전환
                       },
                     ),
                     // Google Login Button
